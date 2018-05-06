@@ -1,0 +1,59 @@
+<template>
+  <div class="index">
+    <div class="index_bg"></div>
+    <!-- 扫码 -->
+    <div class="index_head" v-if="showHead">
+      <div class="index_card"><img src="@/assets/icon_card.png" alt="" class="icon_card">扫描卡片获取卡号</div>
+      <div><input type="text" placeholder="请输入密码" class="card_password"></div>
+      <div class="card_btn">验证</div>
+    </div>
+    <!-- 验证通过 -->
+    <div class="index_head" v-else>
+      <img src="@/assets/icon_finished.png" alt="" class="icon_finished">
+      <div class="card_text">通过验证，请完善您的个人信息</div>
+      <div class="card_number">卡号: 621788456468899236</div>
+    </div>
+    <div class="index_form">
+      <div class="form_input">
+        <div class="name">姓名</div>
+        <input type="text" placeholder="请输入您的真实姓名">
+      </div>
+      <div class="form_input">
+        <div class="name">身份证号</div>
+        <input type="text" placeholder="请输入您的16位身份证号码">
+      </div>
+      <div class="form_input">
+        <div class="name">手机号</div>
+        <input type="text" placeholder="请输入您手机号码" class="tel">
+        <span>获取验证码</span>
+      </div>
+      <div class="form_input">
+        <div class="name">验证码</div>
+        <input type="text" placeholder="请输入验证码">
+      </div>
+      <div class="form_btn active" @click="clickFinish">确认提交</div>
+    </div>
+  </div>
+</template>
+
+<script>
+  import '@/assets/css.css'
+  import '@/assets/index.css'
+
+  export default {
+    name: 'index',
+    data() {
+      return {
+        showHead: true,
+      }
+    },
+    methods:{
+      clickFinish() {
+        this.$router.push({
+          path: '/finish'
+        })
+      },
+    }
+  }
+</script>
+

@@ -5,7 +5,7 @@
     <div class="index_head" v-if="showHead">
       <div class="index_card"><img src="@/assets/icon_card.png" alt="" class="icon_card">扫描卡片获取卡号</div>
       <div><input type="text" placeholder="请输入密码" class="card_password"></div>
-      <div class="card_btn">验证</div>
+      <div class="card_btn" @click="submitBtn">验证</div>
     </div>
     <!-- 验证通过 -->
     <div class="index_head" v-else>
@@ -24,7 +24,7 @@
       </div>
       <div class="form_input">
         <div class="name">手机号</div>
-        <input type="text" placeholder="请输入您手机号码" class="tel">
+        <input type="number" placeholder="请输入您手机号码" class="tel">
         <span>获取验证码</span>
       </div>
       <div class="form_input">
@@ -33,10 +33,26 @@
       </div>
       <div class="form_btn active" @click="clickFinish">确认提交</div>
     </div>
+
+    <!-- 弹窗 -->
+    <div class="index_shadow" v-if="showShadow"></div>
+    <div class="shadow_box" v-if="showCancel">
+      <div>用户已实名</div>
+      <div class="shadow_btn" @click="closeShadow">确定</div>
+    </div>
+    <div class="shadow_box" v-if="showFail">
+      <div>扫描失败,请重新扫描</div>
+      <div class="shadow_btn" @click="closeShadow">确定</div>
+    </div>
+    <div class="shadow_box" v-if="showinformation">
+      <div>输入信息不能为空</div>
+      <div class="shadow_btn" @click="closeShadow">确定</div>
+    </div>
   </div>
 </template>
 
 <script>
+  import api from '@/api/api.js'
   import '@/assets/css.css'
   import '@/assets/index.css'
 
@@ -45,14 +61,28 @@
     data() {
       return {
         showHead: true,
+        showShadow: false,
+        showCancel: false,
+        showFail: false,
+        showinformation: false,
       }
     },
-    methods:{
+    methods: {
       clickFinish() {
         this.$router.push({
           path: '/finish'
         })
       },
+      submitBtn() {
+        this.showShadow = true;
+        this.showCancel = true;
+        // this.showFail = true;
+      },
+      closeShadow() {
+        this.showShadow = false;
+        this.showCancel = false;
+        // this.showFail = false;
+      }
     }
   }
 </script>

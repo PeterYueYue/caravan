@@ -74,11 +74,14 @@
         })
       },
       submitBtn() {
-        this.$http.post(this.$HOST + '/openapi/v2/app/html5/validationUser', {
-          "userCode": "031010601685332795",
-          "passWord": "111111"
-        })
-          .then(function (response) {
+        let data = this.qs.stringify({
+          userCode: '031010601079761633',
+          password: '111111',
+        });
+        console.log(data);
+        this.$http.post(this.$HOST + '/openapi/v2/app/hm/validationUser', {
+          data
+        }).then(function (response) {
             console.log(response);
             this.showShadow = true;
             this.showCancel = true;

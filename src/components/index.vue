@@ -4,7 +4,7 @@
     <!-- 扫码 -->
     <div class="index_head" v-if="showHead">
       <div class="index_card"><img src="@/assets/icon_card.png" alt="" class="icon_card">扫描卡片获取卡号</div>
-      <div><input type="text" placeholder="请输入密码" class="card_password"></div>
+      <div><input type="password" placeholder="请输入密码" class="card_password"></div>
       <div class="card_btn" @click="submitBtn">验证</div>
     </div>
     <!-- 验证通过 -->
@@ -74,14 +74,26 @@
         })
       },
       submitBtn() {
-        this.showShadow = true;
-        this.showCancel = true;
-        // this.showFail = true;
+        this.$http.post(this.$HOST + '/openapi/v2/app/html5/validationUser', {
+          "userCode": "031010601685332795",
+          "passWord": "111111"
+        })
+          .then(function (response) {
+            console.log(response);
+            this.showShadow = true;
+            this.showCancel = true;
+            // this.showFail = true;
+            // this.showinformation = true;
+          })
+          .catch(function (response) {
+            console.log(response);
+          });
       },
       closeShadow() {
         this.showShadow = false;
         this.showCancel = false;
         // this.showFail = false;
+        // this.showinformation = false;
       }
     }
   }

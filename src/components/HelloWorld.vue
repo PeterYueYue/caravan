@@ -17,17 +17,5 @@ export default {
   }
 }
 </script>
-<style lang='less'>
-@rem:100rem;
-    .test1{
-      font-size: 18/@rem;
-    }
-    .div1{
-      width: 100/@rem;
-      height: 100/@rem;
-      background-color: red;
-    }
-
-</style>
 
 

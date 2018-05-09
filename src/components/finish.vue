@@ -3,7 +3,7 @@
     <div class="index_bg"></div>
     <div class="index_head_finish">
       <img src="@/assets/icon_succeed.png" alt="" class="icon_succeed">
-      <div class="finish_number">卡号: 621788456468899236</div>
+      <div class="finish_number">卡号: {{barCode}}</div>
     </div>
     <div class="index_form">
       <div class="finish_input">
@@ -30,10 +30,12 @@
     name: 'index',
     data() {
       return {
-        inforData: {}
+        inforData: {},
+        barCode: ''
       }
     },
     mounted() {
+      this.barCode = this.$route.query.barCode;
       this.getData();
     },
     methods: {

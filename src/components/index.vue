@@ -3,8 +3,9 @@
     <div class="index_bg"></div>
     <!-- 扫码 -->
     <div class="index_head" v-if="showHead">
-      <div class="index_card"><img src="@/assets/icon_card.png" alt="" class="icon_card">扫描卡片获取卡号</div>
-      <div class="index_card number">绿账卡号：031010601502725583</div>
+      <div class="index_card" @click="openScan"><img src="@/assets/icon_card.png" alt="" class="icon_card">扫描卡片获取卡号
+      </div>
+      <div class="index_card number">绿账卡号: {{barCode}}</div>
       <div><input type="password" placeholder="请输入密码" class="card_password" v-model="information.password"></div>
       <div class="card_btn" @click="submitBtn">验证</div>
     </div>
@@ -12,7 +13,7 @@
     <div class="index_head" v-else>
       <img src="@/assets/icon_finished.png" alt="" class="icon_finished">
       <div class="card_text">通过验证，请完善您的个人信息</div>
-      <div class="card_number">卡号: 621788456468899236</div>
+      <div class="card_number">卡号: {{barCode}}</div>
     </div>
     <div class="index_form">
       <div class="form_input">
@@ -26,7 +27,8 @@
       <div class="form_input">
         <div class="name">手机号</div>
         <input type="number" placeholder="请输入您手机号码" class="tel" v-model="information.telephone">
-        <span @click="getCode">获取验证码</span>
+        <span @click="getCode" v-if="timeStatus">获取验证码</span>
+        <span v-else>{{time}}s</span>
       </div>
       <div class="form_input">
         <div class="name">验证码</div>
@@ -97,13 +99,16 @@
           idCardNumber: '',
           telephone: '',
           code: '',
-        }
+        },
+        barCode: '',
+        timeStatus: true,
+        time: 60
       }
     },
     methods: {
       submitBtn() {
         this.$http.post(this.$HOST + '/openapi/v2/app/hm/validationUser', {
-          "userCode": "031010601502725583",
+          "userCode": this.barCode,
           // "userCode": "031010601502725583",
           "password": this.information.password,
         }).then((res) => {
@@ -139,14 +144,34 @@
           if (data.status == "0") {
             this.showShadow = true;
             this.showTel = true;
+          } else {
+            this.timeStatus = false;
+            window.timer = setInterval(() => {
+              this.time -= 1;
+              if (this.time < 1) {
+                clearInterval(window.timer);
+                this.timeStatus = true;
+                this.time = 60;
+              }
+            }, 1000)
           }
         }).catch((error) => {
           console.log(error);
         });
       },
       clickFinish() {
+        //手机身份证验证正则
+        let reg = /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/;
+        let re = /^1[34578]\d{9}$/;
+        let resultCard = reg.test(this.information.idCardNumber);
+        let resultTel = re.test(this.information.telephone);
+        if (!resultTel || !resultCard) {
+          this.showShadow = true;
+          this.showForm = true;
+          return;
+        }
         this.$http.post(this.$HOST + '/openapi/v2/app/hm/realName', {
-          "userCode": "031010601502725583",
+          "userCode": this.barCode,
           "userName": this.information.userName,
           "idCardNumber": this.information.idCardNumber,
           "telephone": this.information.telephone,
@@ -170,17 +195,11 @@
           }
           //跳转
           if (data.status == "1") {
-            //手机身份证验证正则
-            var reg = /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/;
-            let re = /^1[34578]\d{9}$/;
-            let resultCard = reg.test(this.idCardNumber);
-            let resultTel = re.test(this.telephone);
-            if (!resultTel || !resultCard) {
-              this.showShadow = true;
-              this.showForm = true;
-            }
             this.$router.push({
-              path: '/finish'
+              path: '/finish',
+              query: {
+                barCode: this.barCode
+              }
             })
           }
         }).catch((error) => {
@@ -197,6 +216,13 @@
         this.showCode = false;
         this.showFcode = false;
         this.showForm = false;
+      },
+      openScan(){
+        ap.scan({
+          type: 'bar'
+        }, (res) => {
+          this.barCode = res.code;
+        });
       }
     }
   }

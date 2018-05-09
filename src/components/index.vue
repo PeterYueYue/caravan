@@ -4,6 +4,7 @@
     <!-- 扫码 -->
     <div class="index_head" v-if="showHead">
       <div class="index_card"><img src="@/assets/icon_card.png" alt="" class="icon_card">扫描卡片获取卡号</div>
+      <div class="index_card number">绿账卡号：031010601502725583</div>
       <div><input type="password" placeholder="请输入密码" class="card_password" v-model="information.password"></div>
       <div class="card_btn" @click="submitBtn">验证</div>
     </div>
@@ -90,6 +91,7 @@
         showCode: false,
         showFcode: false,
         information: {
+          userCode: '',
           password: '',
           userName: '',
           idCardNumber: '',

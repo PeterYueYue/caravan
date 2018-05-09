@@ -8,15 +8,15 @@
     <div class="index_form">
       <div class="finish_input">
         <div class="account">姓名</div>
-        <div class="account">王**</div>
+        <div class="account">{{inforData.userName}}</div>
       </div>
       <div class="finish_input">
         <div class="account">身份证号</div>
-        <div class="account">3*******************5</div>
+        <div class="account">{{inforData.idCardNumber}}</div>
       </div>
       <div class="finish_input">
         <div class="account">手机号</div>
-        <div class="account">158******659</div>
+        <div class="account">{{inforData.telephone}}</div>
       </div>
     </div>
   </div>
@@ -30,8 +30,23 @@
     name: 'index',
     data() {
       return {
-
+        inforData: {}
       }
+    },
+    mounted() {
+      this.getData();
+    },
+    methods: {
+      getData() {
+        this.$http.post(this.$HOST + '/openapi/v2/app/hm/getUserInformation', {
+          "userCode": "131011701032282580"
+        }).then((res) => {
+          console.log(res.data.content);
+          this.inforData = res.data.content
+        }).catch((error) => {
+          console.log(error);
+        });
+      },
     }
   }
 </script>

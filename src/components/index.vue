@@ -52,6 +52,10 @@
       <div>手机号不能为空</div>
       <div class="shadow_btn" @click="closeShadow">确定</div>
     </div>
+    <div class="shadow_box" v-if="showForm">
+      <div>手机号或身份证格式不正确</div>
+      <div class="shadow_btn" @click="closeShadow">确定</div>
+    </div>
     <div class="shadow_box" v-if="showInformation">
       <div>上述信息不能为空</div>
       <div class="shadow_btn" @click="closeShadow">确定</div>
@@ -82,6 +86,7 @@
         showPassword: false,
         showInformation: false,
         showTel: false,
+        showForm: false,
         showCode: false,
         showFcode: false,
         information: {
@@ -146,14 +151,6 @@
           "code": this.information.code,
         }).then((res) => {
           var data = res.data.content;
-          //验证手机正则
-          // var reg = /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/;
-          // let re = /^1[34578]\d{9}$/;
-          // let result = re.test(this.telephone);
-          // if (!result) {
-          //   this.showShadow = true;
-          //   this.showTel = true;
-          // }
           //验证码发送失败或未获取
           if (data.status == "5") {
             this.showShadow = true;
@@ -171,6 +168,15 @@
           }
           //跳转
           if (data.status == "1") {
+            //手机身份证验证正则
+            var reg = /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/;
+            let re = /^1[34578]\d{9}$/;
+            let resultCard = reg.test(this.idCardNumber);
+            let resultTel = re.test(this.telephone);
+            if (!resultTel || !resultCard) {
+              this.showShadow = true;
+              this.showForm = true;
+            }
             this.$router.push({
               path: '/finish'
             })
@@ -188,6 +194,7 @@
         this.showTel = false;
         this.showCode = false;
         this.showFcode = false;
+        this.showForm = false;
       }
     }
   }

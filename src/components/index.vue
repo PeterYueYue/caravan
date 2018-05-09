@@ -57,7 +57,7 @@
       <div class="shadow_btn" @click="closeShadow">确定</div>
     </div>
     <div class="shadow_box" v-if="showCode">
-      <div>验证码发送失败或未获取</div>
+      <div>未获取验证码</div>
       <div class="shadow_btn" @click="closeShadow">确定</div>
     </div>
     <div class="shadow_box" v-if="showFcode">
@@ -96,7 +96,7 @@
     methods: {
       submitBtn() {
         this.$http.post(this.$HOST + '/openapi/v2/app/hm/validationUser', {
-          "userCode": "131011701032282580",
+          "userCode": "031010601502725583",
           // "userCode": "031010601502725583",
           "password": this.information.password,
         }).then((res) => {
@@ -139,7 +139,7 @@
       },
       clickFinish() {
         this.$http.post(this.$HOST + '/openapi/v2/app/hm/realName', {
-          "userCode": "131011701032282580",
+          "userCode": "031010601502725583",
           "userName": this.information.userName,
           "idCardNumber": this.information.idCardNumber,
           "telephone": this.information.telephone,

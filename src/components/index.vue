@@ -34,7 +34,8 @@
         <div class="name">验证码</div>
         <input type="number" placeholder="请输入验证码" v-model="information.code">
       </div>
-      <div class="form_btn active" @click="clickFinish">确认提交</div>
+      <div class="form_btn" v-if="showBtn">确认提交</div>
+      <div class="form_btn active" @click="clickFinish" v-else>确认提交</div>
     </div>
 
     <!-- 弹窗 -->
@@ -102,6 +103,7 @@
         showCode: false,
         showFcode: false,
         showNumber: false,
+        showBtn: true,
         information: {
           userCode: '',
           password: '',
@@ -141,6 +143,7 @@
           //完善信息
           if (data.status == "2") {
             this.showHead = false;
+            this.showBtn = false;
           }
         }).catch((error) => {
           console.log(error);

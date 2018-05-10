@@ -55,8 +55,12 @@
       <div>手机号不能为空</div>
       <div class="shadow_btn" @click="closeShadow">确定</div>
     </div>
+    <div class="shadow_box" v-if="showForm1">
+      <div>身份证格式不正确</div>
+      <div class="shadow_btn" @click="closeShadow">确定</div>
+    </div>
     <div class="shadow_box" v-if="showForm">
-      <div>手机号或身份证格式不正确</div>
+      <div>手机号格式不正确</div>
       <div class="shadow_btn" @click="closeShadow">确定</div>
     </div>
     <div class="shadow_box" v-if="showInformation">
@@ -69,6 +73,10 @@
     </div>
     <div class="shadow_box" v-if="showFcode">
       <div>验证码不正确</div>
+      <div class="shadow_btn" @click="closeShadow">确定</div>
+    </div>
+    <div class="shadow_box" v-if="showNumber">
+      <div>身份证信息重复</div>
       <div class="shadow_btn" @click="closeShadow">确定</div>
     </div>
   </div>
@@ -89,9 +97,11 @@
         showPassword: false,
         showInformation: false,
         showTel: false,
+        showForm1: false,
         showForm: false,
         showCode: false,
         showFcode: false,
+        showNumber: false,
         information: {
           userCode: '',
           password: '',
@@ -165,7 +175,12 @@
         let re = /^1[34578]\d{9}$/;
         let resultCard = reg.test(this.information.idCardNumber);
         let resultTel = re.test(this.information.telephone);
-        if (!resultTel || !resultCard) {
+        if (!resultCard) {
+          this.showShadow = true;
+          this.showForm1 = true;
+          return;
+        }
+        if (!resultTel) {
           this.showShadow = true;
           this.showForm = true;
           return;
@@ -187,6 +202,11 @@
           if (data.status == "6") {
             this.showShadow = true;
             this.showFcode = true;
+          }
+          //身份证信息重复
+          if (data.status == "3") {
+            this.showShadow = true;
+            this.showNumber = true;
           }
           //信息为空
           if (data.status == "-9") {
@@ -215,9 +235,11 @@
         this.showTel = false;
         this.showCode = false;
         this.showFcode = false;
+        this.showForm1 = false;
         this.showForm = false;
+        this.showNumber = false;
       },
-      openScan(){
+      openScan() {
         ap.scan({
           type: 'bar'
         }, (res) => {

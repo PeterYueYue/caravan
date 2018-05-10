@@ -11,7 +11,7 @@ module.exports = {
     assetsPublicPath: '/',
     proxyTable: {
       '/openapi': {
-        target: 'http://180.153.19.162:8082'
+        target: 'https://app.greenfortune.sh.cn'
       },
     },
 

@@ -121,7 +121,6 @@
       submitBtn() {
         this.$http.post(this.$HOST + '/openapi/v2/app/hm/validationUser', {
           "userCode": this.barCode,
-          // "userCode": "031010601502725583",
           "password": this.information.password,
         }).then((res) => {
           var data = res.data.content;

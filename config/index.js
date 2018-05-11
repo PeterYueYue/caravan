@@ -11,12 +11,14 @@ module.exports = {
     assetsPublicPath: '/',
     proxyTable: {
       '/openapi': {
-        target: 'https://app.greenfortune.sh.cn'
+        // target: 'https://app.greenfortune.sh.cn'
+        target: 'http://180.153.19.162:8082'
       },
     },
 
     // Various Dev Server settings
     host: 'localhost', // can be overwritten by process.env.HOST
+    // host: '192.168.1.127', // can be overwritten by process.env.HOST
     port: 8080, // can be overwritten by process.env.PORT, if port is in use, a free one will be determined
     autoOpenBrowser: false,
     errorOverlay: true,

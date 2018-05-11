@@ -6,22 +6,27 @@ const path = require('path')
 
 module.exports = {
   dev: {
-
     // Paths
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
     proxyTable: {
       '/openapi': {
+<<<<<<< HEAD
         target: 'http://192.168.1.233:8080',
         changeOrigin: true,
         pathRewrite: {
             '^/coupons': '/coupons'
         }
+=======
+        // target: 'https://app.greenfortune.sh.cn'
+        target: 'http://180.153.19.162:8082'
+>>>>>>> ae4acfbc5ff34cf79bd6f8a6c78267cfbcaf6b4c
       },
     },
 
     // Various Dev Server settings
     host: 'localhost', // can be overwritten by process.env.HOST
+    // host: '192.168.1.127', // can be overwritten by process.env.HOST
     port: 8080, // can be overwritten by process.env.PORT, if port is in use, a free one will be determined
     autoOpenBrowser: false,
     errorOverlay: true,

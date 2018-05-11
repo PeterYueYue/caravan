@@ -138,14 +138,6 @@
           if (data.status == "1") {
             this.showShadow = true;
             this.showCancel = true;
-<<<<<<< HEAD
-            // this.showFail = true;
-            // this.showinformation = true;
-          })
-          .catch(function (response) {
-            console.log(response,"1221");
-          });
-=======
           }
           //完善信息
           if (data.status == "2") {
@@ -235,7 +227,6 @@
         }).catch((error) => {
           console.log(error);
         });
->>>>>>> ae4acfbc5ff34cf79bd6f8a6c78267cfbcaf6b4c
       },
       closeShadow() {
         this.showShadow = false;

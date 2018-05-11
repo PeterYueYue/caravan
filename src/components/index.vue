@@ -243,7 +243,7 @@
       },
       openScan() {
         ap.scan({
-          type: 'bar'
+          type: 'qr'
         }, (res) => {
           this.barCode = res.code;
         });

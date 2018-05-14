@@ -15,27 +15,28 @@
       <div class="card_text">通过验证，请完善您的个人信息</div>
       <div class="card_number">卡号: {{barCode}}</div>
     </div>
-    <div class="index_form">
-      <div class="form_input">
-        <div class="name">姓名</div>
-        <input type="text" placeholder="请输入您的真实姓名" v-model="information.userName">
+    <div v-if="showSubmit">
+      <div class="index_form">
+        <div class="form_input">
+          <div class="name">姓名</div>
+          <input type="text" placeholder="请输入您的真实姓名" v-model="information.userName">
+        </div>
+        <div class="form_input">
+          <div class="name">身份证号</div>
+          <input type="number" placeholder="请输入您的18位身份证号码" v-model="information.idCardNumber">
+        </div>
+        <div class="form_input">
+          <div class="name">手机号</div>
+          <input type="number" placeholder="请输入您手机号码" class="tel" v-model="information.telephone">
+          <span @click="getCode" v-if="timeStatus">获取验证码</span>
+          <span v-else>{{time}}s</span>
+        </div>
+        <div class="form_input">
+          <div class="name">验证码</div>
+          <input type="number" placeholder="请输入验证码" v-model="information.code">
+        </div>
+        <div class="form_btn active" @click="clickFinish">确认提交</div>
       </div>
-      <div class="form_input">
-        <div class="name">身份证号</div>
-        <input type="text" placeholder="请输入您的16位身份证号码" v-model="information.idCardNumber">
-      </div>
-      <div class="form_input">
-        <div class="name">手机号</div>
-        <input type="number" placeholder="请输入您手机号码" class="tel" v-model="information.telephone">
-        <span @click="getCode" v-if="timeStatus">获取验证码</span>
-        <span v-else>{{time}}s</span>
-      </div>
-      <div class="form_input">
-        <div class="name">验证码</div>
-        <input type="number" placeholder="请输入验证码" v-model="information.code">
-      </div>
-      <div class="form_btn" v-if="showBtn">确认提交</div>
-      <div class="form_btn active" @click="clickFinish" v-else>确认提交</div>
     </div>
 
     <!-- 弹窗 -->
@@ -91,6 +92,7 @@
     name: 'index',
     data() {
       return {
+        showSubmit: false,
         showHead: true,
         showShadow: false,
         showCancel: false,
@@ -103,7 +105,6 @@
         showCode: false,
         showFcode: false,
         showNumber: false,
-        showBtn: true,
         information: {
           userCode: '',
           password: '',
@@ -141,8 +142,8 @@
           }
           //完善信息
           if (data.status == "2") {
+            this.showSubmit = true;
             this.showHead = false;
-            this.showBtn = false;
           }
         }).catch((error) => {
           console.log(error);

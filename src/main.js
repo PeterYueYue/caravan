@@ -9,8 +9,8 @@ import qs from 'qs';
 
 Vue.prototype.$http = axios;
 Vue.prototype.qs = qs;
-// Vue.prototype.$HOST = 'http://180.153.19.162:8082';
-Vue.prototype.$HOST = '';
+Vue.prototype.$HOST = 'http://180.153.19.162:8082';
+// Vue.prototype.$HOST = '';
 Vue.config.productionTip = false;
 
 

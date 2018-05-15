@@ -5,7 +5,7 @@ import App from './App'
 import router from './router'
 import axios from 'axios'
 import qs from 'qs';
-import wx from 'weixin-js-sdk';
+// import wx from 'weixin-js-sdk';
 
 
 Vue.prototype.$http = axios;
@@ -13,7 +13,7 @@ Vue.prototype.qs = qs;
 Vue.prototype.$HOST = 'http://180.153.19.162:8082';
 // Vue.prototype.$HOST = '';
 Vue.config.productionTip = false;
-Vue.use(wx);
+// Vue.use(wx);
 
 
 /* eslint-disable no-new */

@@ -24,14 +24,15 @@ module.exports = {
   dev: {
     env: require('./dev.env'),
     port: 8082,
-    host: '192.168.1.127',
+    host: '192.168.1.7',
     autoOpenBrowser: true,
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
     proxyTable: {
       '/openapi': { //这里是我配置的名字
         // 正式
-        target: 'http://180.153.19.162:8082',
+        // target: 'http://180.153.19.162:8082',
+        target: 'http://app.greenfortune.sh.cn',
         // target: 'http://192.168.1.233:8080',
 
         changeOrigin: true,

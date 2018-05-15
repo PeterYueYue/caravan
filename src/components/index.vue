@@ -8,7 +8,7 @@
       <div class="index_card number">绿账卡号: {{barCode}}</div>
       <div><input type="password" placeholder="请输入密码" class="card_password" v-model="information.password"></div>
       <div class="card_btn" @click="submitBtn">验证</div>
-      <input type="button" value="扫一扫" @click="scanQRCode" style="font-size: 0.4rem">
+      <!--<input type="button" value="扫一扫" @click="scanQRCode" style="font-size: 0.4rem">-->
     </div>
     <!-- 验证通过 -->
     <div class="index_head" v-else>
@@ -120,29 +120,6 @@
       }
     },
     mounted() {
-      wx.config({
-        // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
-        debug: false,
-        // 必填，公众号的唯一标识
-        appId: 'wxc3ef5ae7650dbc82',
-        timestamp: 1526022752,
-        nonceStr: '12345',
-        signature: '0492fb6ba8e2d749b0668e3b4b51321e365efd6d',
-
-        // 必填，需要使用的JS接口列表
-        jsApiList: ['checkJsApi', 'scanQRCode']
-      });
-
-      wx.error(function (res) {
-        alert("出错了：" + res.errMsg);//这个地方的好处就是wx.config配置错误，会弹出窗口哪里错误，然后根据微信文档查询即可。
-      });
-
-      wx.checkJsApi({
-        jsApiList: ['scanQRCode'],
-        success: function (res) {
-        }
-      });
-      this.scanQRCode();
     },
     methods: {
       submitBtn() {
@@ -269,19 +246,49 @@
         this.showNumber = false;
       },
       openScan() {
-        ap.scan({
-          type: 'qr'
-        }, (res) => {
-          this.barCode = res.code;
+        let env = window.navigator.userAgent;
+        if (env.indexOf('Alipay') > -1) {
+          ap.scan({
+            type: 'qr'
+          }, (res) => {
+            this.barCode = res.code;
+          });
+        }
+        if (env.indexOf('MicroMessenger') > -1) {
+          this.wxConfig();
+        }
+      },
+      wxConfig(){
+        this.$http.get(this.$HOST + '/openapi/v2/app/hm/getWeixinConf').then((res) => {
+          const sign = res.data.content;
+          wx.config({
+            // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+            debug: false,
+            // 必填，公众号的唯一标识
+            appId: 'wxc3ef5ae7650dbc82',
+            timestamp: sign.timestamp,
+            nonceStr: sign.nonceStr,
+            signature: sign.signature,
+
+            // 必填，需要使用的JS接口列表
+            jsApiList: ['scanQRCode']
+          });
+          wx.error(function (res) {
+            alert("出错了：" + res.errMsg);//这个地方的好处就是wx.config配置错误，会弹出窗口哪里错误，然后根据微信文档查询即可。
+          });
+        }).catch((error) => {
+          console.log(error);
         });
+        this.scanQRCode();
       },
       scanQRCode() {
         wx.scanQRCode({
           needResult: 1, // 默认为0，扫描结果由微信处理，1则直接返回扫描结果，
           scanType: ["qrCode"], // 可以指定扫二维码还是一维码，默认二者都有
-          success: function (res) {
-            var result = res.resultStr; // 当needResult 为 1 时，扫码返回的结果
-            alert("扫描结果：" + result);
+          success: (res) => {
+            this.barCode = res.resultStr;
+//            var result = res.resultStr; // 当needResult 为 1 时，扫码返回的结果
+//            alert("扫描结果：" + result);
           }
         });
       },

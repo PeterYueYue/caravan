@@ -5,6 +5,7 @@ import App from './App'
 import router from './router'
 import axios from 'axios'
 import qs from 'qs';
+import wx from 'weixin-js-sdk';
 
 
 Vue.prototype.$http = axios;

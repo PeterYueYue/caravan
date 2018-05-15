@@ -248,7 +248,7 @@
         }, (res) => {
           this.barCode = res.code;
         });
-      }
+      },
     }
   }
 </script>

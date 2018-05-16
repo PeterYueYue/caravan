@@ -9,7 +9,7 @@ import qs from 'qs';
 
 Vue.prototype.$http = axios;
 Vue.prototype.qs = qs;
-Vue.prototype.$HOST = 'http://app.greenfortune.sh.cn';
+Vue.prototype.$HOST = 'https://app.greenfortune.sh.cn';
 // Vue.prototype.$HOST = '';
 Vue.config.productionTip = false;
 

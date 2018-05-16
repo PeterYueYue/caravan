@@ -32,7 +32,7 @@ module.exports = {
       '/openapi': { //这里是我配置的名字
         // 正式
         // target: 'http://180.153.19.162:8082',
-        target: 'http://app.greenfortune.sh.cn',
+        target: 'https://app.greenfortune.sh.cn',
 
         changeOrigin: true,
         pathRewrite: {

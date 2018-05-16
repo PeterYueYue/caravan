@@ -8,7 +8,6 @@
       <div class="index_card number">绿账卡号: {{barCode}}</div>
       <div><input type="password" placeholder="请输入密码" class="card_password" v-model="information.password"></div>
       <div class="card_btn" @click="submitBtn">验证</div>
-      <!--<input type="button" value="扫一扫" @click="scanQRCode" style="font-size: 0.4rem">-->
     </div>
     <!-- 验证通过 -->
     <div class="index_head" v-else>
@@ -44,7 +43,7 @@
     <div class="index_shadow" v-if="showShadow"></div>
     <div class="shadow_box" v-if="showCancel">
       <div>用户已实名</div>
-      <div class="shadow_btn" @click="closeShadow">确定</div>
+      <div class="shadow_btn" @click="closeShadow1">确定</div>
     </div>
     <div class="shadow_box" v-if="showFail">
       <div>账号不存在,请重新扫描</div>
@@ -52,7 +51,7 @@
     </div>
     <div class="shadow_box" v-if="showPassword">
       <div>密码为空或不正确</div>
-      <div class="shadow_btn" @click="closeShadow">确定</div>
+      <div class="shadow_btn" @click="closeShadow1">确定</div>
     </div>
     <div class="shadow_box" v-if="showTel">
       <div>手机号不能为空</div>
@@ -235,8 +234,6 @@
       closeShadow() {
         this.showShadow = false;
         this.showFail = false;
-        this.showCancel = false;
-        this.showPassword = false;
         this.showInformation = false;
         this.showTel = false;
         this.showCode = false;
@@ -244,6 +241,13 @@
         this.showForm1 = false;
         this.showForm = false;
         this.showNumber = false;
+      },
+      closeShadow1() {
+        this.showShadow = false;
+        this.showCancel = false;
+        this.showPassword = false;
+        this.barCode = '';
+        this.information.password = '';
       },
       openScan() {
         let env = window.navigator.userAgent;
@@ -258,7 +262,7 @@
           this.wxConfig();
         }
       },
-      wxConfig(){
+      wxConfig() {
         this.$http.get(this.$HOST + '/openapi/v2/app/hm/getWeixinConf').then((res) => {
           const sign = res.data.content;
           wx.config({
@@ -286,9 +290,7 @@
           needResult: 1, // 默认为0，扫描结果由微信处理，1则直接返回扫描结果，
           scanType: ["qrCode"], // 可以指定扫二维码还是一维码，默认二者都有
           success: (res) => {
-            this.barCode = res.resultStr;
-//            var result = res.resultStr; // 当needResult 为 1 时，扫码返回的结果
-//            alert("扫描结果：" + result);
+            this.barCode = res.resultStr;// 当needResult 为 1 时，扫码返回的结果
           }
         });
       },

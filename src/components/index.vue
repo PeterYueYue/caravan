@@ -65,6 +65,10 @@
       <div>手机号格式不正确</div>
       <div class="shadow_btn" @click="closeShadow">确定</div>
     </div>
+    <div class="shadow_box" v-if="showPhone">
+      <div>手机号已经被使用</div>
+      <div class="shadow_btn" @click="closeShadow">确定</div>
+    </div>
     <div class="shadow_box" v-if="showInformation">
       <div>上述信息不能为空</div>
       <div class="shadow_btn" @click="closeShadow">确定</div>
@@ -100,6 +104,7 @@
         showPassword: false,
         showInformation: false,
         showTel: false,
+        showPhone: false,
         showForm1: false,
         showForm: false,
         showCode: false,
@@ -203,6 +208,11 @@
             this.showShadow = true;
             this.showCode = true;
           }
+          //手机号已经被使用
+          if (data.status == "4") {
+            this.showShadow = true;
+            this.showPhone = true;
+          }
           //验证码不正确
           if (data.status == "6") {
             this.showShadow = true;
@@ -241,6 +251,7 @@
         this.showForm1 = false;
         this.showForm = false;
         this.showNumber = false;
+        this.showPhone = false;
       },
       closeShadow1() {
         this.showShadow = false;

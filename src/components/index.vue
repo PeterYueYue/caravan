@@ -123,7 +123,7 @@
     methods: {
       submitBtn() {
         this.$http.post(this.$HOST + '/openapi/v2/app/hm/validationUser', {
-          "userCode": '131011801616129822',
+          "userCode": this.barCode,
           "password": this.information.password,
         }).then((res) => {
           var data = res.data.content;
@@ -191,7 +191,7 @@
           return;
         }
         this.$http.post(this.$HOST + '/openapi/v2/app/hm/realName', {
-          "userCode": '131011801616129822',
+          "userCode": this.barCode,
           "userName": this.information.userName,
           "idCardNumber": this.information.idCardNumber,
           "telephone": this.information.telephone,

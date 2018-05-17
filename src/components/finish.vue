@@ -41,7 +41,7 @@
     methods: {
       getData() {
         this.$http.post(this.$HOST + '/openapi/v2/app/hm/getUserInformation', {
-          "userCode": "031010601502725583"
+          "userCode": this.barCode
         }).then((res) => {
           console.log(res.data.content);
           this.inforData = res.data.content

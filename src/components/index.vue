@@ -298,10 +298,12 @@
           });
         }
         if (env.indexOf('MicroMessenger') > -1) {
+          alert(1);
           this.wxConfig();
         }
       },
       wxConfig() {
+        alert(2);
         this.$http.get(this.$HOST + '/openapi/v2/app/hm/getWeixinConf').then((res) => {
           const sign = res.data.content;
           wx.config({
@@ -322,6 +324,7 @@
         }).catch((error) => {
           console.log(error);
         });
+        alert(3);
         this.scanQRCode();
       },
       scanQRCode() {

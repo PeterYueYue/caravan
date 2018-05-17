@@ -23,7 +23,7 @@
         </div>
         <div class="form_input">
           <div class="name">身份证号</div>
-          <input type="number" placeholder="请输入您的18位身份证号码" v-model="information.idCardNumber">
+          <input type="text" placeholder="请输入您的18位身份证号码" v-model="information.idCardNumber">
         </div>
         <div class="form_input">
           <div class="name">手机号</div>
@@ -128,7 +128,7 @@
     methods: {
       submitBtn() {
         this.$http.post(this.$HOST + '/openapi/v2/app/hm/validationUser', {
-          "userCode": '131011301915591605',
+          "userCode": this.barCode,
           "password": this.information.password,
         }).then((res) => {
           var data = res.data.content;
@@ -157,6 +157,15 @@
         });
       },
       getCode() {
+        //手机号正则验证
+        let re = /^1[34578]\d{9}$/;
+        let resultTel = re.test(this.information.telephone);
+        if (!resultTel) {
+          this.showShadow = true;
+          this.showForm = true;
+          this.information.telephone = '';
+          return;
+        }
         this.$http.post(this.$HOST + '/openapi/v2/app/hm/sendCodeToPhone', {
           "telephone": this.information.telephone
         }).then((res) => {
@@ -180,29 +189,27 @@
         });
       },
       clickFinish() {
-        //手机身份证验证正则
-        let reg = /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/;
-        let re = /^1[34578]\d{9}$/;
+        //身份证验证正则
+        let reg = /^(\d{6})(\d{4})(\d{2})(\d{2})(\d{3})([0-9]|X)$/;
         let resultCard = reg.test(this.information.idCardNumber);
-        let resultTel = re.test(this.information.telephone);
         if (!resultCard) {
           this.showShadow = true;
           this.showForm1 = true;
-          return;
-        }
-        if (!resultTel) {
-          this.showShadow = true;
-          this.showForm = true;
+          this.information.idCardNumber = '';
           return;
         }
         this.$http.post(this.$HOST + '/openapi/v2/app/hm/realName', {
-          "userCode": '131011301915591605',
+          "userCode": this.barCode,
           "userName": this.information.userName,
           "idCardNumber": this.information.idCardNumber,
           "telephone": this.information.telephone,
           "code": this.information.code,
         }).then((res) => {
           var data = res.data.content;
+          if(data == null){
+            this.showShadow = true;
+            this.showCode = true;
+          }
           //验证码发送失败或未获取
           if (data.status == "5") {
             this.showShadow = true;
@@ -212,6 +219,7 @@
           if (data.status == "4") {
             this.showShadow = true;
             this.showPhone = true;
+            this.information.telephone = '';
           }
           //验证码不正确
           if (data.status == "6") {
@@ -222,6 +230,7 @@
           if (data.status == "3") {
             this.showShadow = true;
             this.showNumber = true;
+            this.information.idCardNumber = '';
           }
           //信息为空
           if (data.status == "-9") {

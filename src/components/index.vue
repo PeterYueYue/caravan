@@ -85,6 +85,10 @@
       <div>身份证信息重复</div>
       <div class="shadow_btn" @click="closeShadow">确定</div>
     </div>
+    <div class="shadow_box" v-if="showName">
+      <div>姓名格式不正确</div>
+      <div class="shadow_btn" @click="closeShadow">确定</div>
+    </div>
   </div>
 </template>
 
@@ -110,6 +114,7 @@
         showCode: false,
         showFcode: false,
         showNumber: false,
+        showName: false,
         information: {
           userCode: '',
           password: '',
@@ -189,6 +194,15 @@
         });
       },
       clickFinish() {
+        //姓名正则
+        let rs = /[\u4e00-\u9fa5]/;
+        let resultName = rs.test(this.information.userName);
+        if (!resultName) {
+          this.showShadow = true;
+          this.showName = true;
+          this.information.userName = '';
+          return;
+        }
         //身份证验证正则
         let reg = /^(\d{6})(\d{4})(\d{2})(\d{2})(\d{3})([0-9]|X)$/;
         let resultCard = reg.test(this.information.idCardNumber);
@@ -261,6 +275,7 @@
         this.showForm = false;
         this.showNumber = false;
         this.showPhone = false;
+        this.showName = false;
       },
       closeShadow1() {
         this.showShadow = false;

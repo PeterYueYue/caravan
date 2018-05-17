@@ -47,11 +47,11 @@
     </div>
     <div class="shadow_box" v-if="showFail">
       <div>账号不存在,请重新扫描</div>
-      <div class="shadow_btn" @click="closeShadow">确定</div>
+      <div class="shadow_btn" @click="closeShadow1">确定</div>
     </div>
     <div class="shadow_box" v-if="showPassword">
       <div>密码为空或不正确</div>
-      <div class="shadow_btn" @click="closeShadow1">确定</div>
+      <div class="shadow_btn" @click="closeShadow2">确定</div>
     </div>
     <div class="shadow_box" v-if="showTel">
       <div>手机号不能为空</div>
@@ -266,7 +266,6 @@
       },
       closeShadow() {
         this.showShadow = false;
-        this.showFail = false;
         this.showInformation = false;
         this.showTel = false;
         this.showCode = false;
@@ -280,8 +279,13 @@
       closeShadow1() {
         this.showShadow = false;
         this.showCancel = false;
-        this.showPassword = false;
+        this.showFail = false;
         this.barCode = '';
+        this.information.password = '';
+      },
+      closeShadow2() {
+        this.showShadow = false;
+        this.showPassword = false;
         this.information.password = '';
       },
       openScan() {

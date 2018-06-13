@@ -81,6 +81,10 @@
       <div>验证码不正确</div>
       <div class="shadow_btn" @click="closeShadow">确定</div>
     </div>
+    <div class="shadow_box" v-if="showFcodeName">
+      <div>身份证号与姓名不匹配</div>
+      <div class="shadow_btn" @click="closeShadow">确定</div>
+    </div>
     <div class="shadow_box" v-if="showNumber">
       <div>身份证信息重复</div>
       <div class="shadow_btn" @click="closeShadow">确定</div>
@@ -113,6 +117,7 @@
         showForm: false,
         showCode: false,
         showFcode: false,
+        showFcodeName: false,
         showNumber: false,
         showName: false,
         information: {
@@ -263,6 +268,11 @@
             this.showShadow = true;
             this.showFcode = true;
           }
+          //身份证号与姓名不匹配
+          if (data.status == "7") {
+            this.showShadow = true;
+            this.showFcodeName = true;
+          }
           //身份证信息重复
           if (data.status == "3") {
             this.showShadow = true;
@@ -293,6 +303,7 @@
         this.showTel = false;
         this.showCode = false;
         this.showFcode = false;
+        this.showFcodeName = false;
         this.showForm1 = false;
         this.showForm = false;
         this.showNumber = false;

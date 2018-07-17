@@ -41,6 +41,10 @@
 
     <!-- 弹窗 -->
     <div class="index_shadow" v-if="showShadow"></div>
+    <div class="shadow_box" v-if="showNull">
+      <div>账号不能为空</div>
+      <div class="shadow_btn" @click="closeShadow">确定</div>
+    </div>
     <div class="shadow_box" v-if="showCancel">
       <div>用户已实名</div>
       <div class="shadow_btn" @click="closeShadow1">确定</div>
@@ -107,6 +111,7 @@
         showSubmit: false,
         showHead: true,
         showShadow: false,
+        showNull: false,
         showCancel: false,
         showFail: false,
         showPassword: false,
@@ -169,6 +174,11 @@
           if (data.status == "-1") {
             this.showShadow = true;
             this.showPassword = true;
+          }
+          //账号不能为空
+          if (data.status == "-2") {
+            this.showShadow = true;
+            this.showNull = true;
           }
           //账号不存在
           if (data.status == "0") {
@@ -310,6 +320,7 @@
         this.showNumber = false;
         this.showPhone = false;
         this.showName = false;
+        this.showNull = false;
       },
       closeShadow1() {
         this.showShadow = false;

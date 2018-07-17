@@ -31,8 +31,8 @@ module.exports = {
     proxyTable: {
       '/openapi': { //这里是我配置的名字
         // 正式
-        target: 'https://app.greenfortune.sh.cn',
-        // target: 'http://180.153.19.162:8082',
+        // target: 'https://app.greenfortune.sh.cn',
+        target: 'http://47.90.121.211',
 
         changeOrigin: true,
         pathRewrite: {

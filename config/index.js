@@ -32,7 +32,9 @@ module.exports = {
       '/openapi': { //这里是我配置的名字
         // 正式
         target: 'http://weixin.greenfortune.sh.cn',
+        //曾用域名
         // target: 'https://app.greenfortune.sh.cn',
+        //梁浩本地测试
         // target: 'http://47.90.121.211',
 
         changeOrigin: true,

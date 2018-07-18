@@ -336,14 +336,14 @@
       },
       openScan() {
         let env = window.navigator.userAgent;
-        if (env.indexOf('Alipay') > -1) {
+        if (env.indexOf('Alipay') > -1) { //调用支付宝端扫码
           ap.scan({
             type: 'qr'
           }, (res) => {
             this.barCode = res.code;
           });
         }
-        if (env.indexOf('MicroMessenger') > -1) {
+        if (env.indexOf('MicroMessenger') > -1) { //调用微信端扫码
           this.wxConfig();
         }
       },

@@ -202,7 +202,7 @@
       },
       getCode() {
         //手机号正则验证
-        let re = /^1[34578]\d{9}$/;
+        let re = /^(0|86|17951)?(13[0-9]|15[012356789]|17[678]|18[0-9]|14[57]|19[0-9]|16[0-9])[0-9]{8}$/;
         let resultTel = re.test(this.information.telephone);
         if (!resultTel) {
           this.showShadow = true;

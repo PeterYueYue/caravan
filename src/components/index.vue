@@ -46,7 +46,8 @@
       <div class="shadow_btn" @click="closeShadow">确定</div>
     </div>
     <div class="shadow_box" v-if="showCancel">
-      <div>用户已实名</div>
+      <div v-if="approveChannel">用户已在{{approveChannel}}实名</div>
+      <div v-else>用户已实名</div>
       <div class="shadow_btn" @click="closeShadow1">确定</div>
     </div>
     <div class="shadow_box" v-if="showFail">
@@ -134,6 +135,7 @@
           code: '',
         },
         barCode: '',
+        approveChannel: '',
         timeStatus: true,
         time: 60
       }
@@ -169,6 +171,7 @@
           "userCode": this.barCode,
           "password": this.information.password,
         }).then((res) => {
+          this.approveChannel = res.data.content.approveChannel;
           var data = res.data.content;
           //密码为空或不正确
           if (data.status == "-1") {

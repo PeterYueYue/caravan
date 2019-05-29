@@ -260,6 +260,7 @@
           "idCardNumber": this.information.idCardNumber,
           "telephone": this.information.telephone,
           "code": this.information.code,
+          "approveChannel": decodeURIComponent(this.$route.query.districtName),
         }).then((res) => {
           var data = res.data.content;
           if(data == null){
@@ -303,7 +304,8 @@
             this.$router.push({
               path: '/finish',
               query: {
-                barCode: this.barCode
+                barCode: this.barCode,
+                approveChannel: decodeURIComponent(this.$route.query.districtName),
               }
             })
           }
